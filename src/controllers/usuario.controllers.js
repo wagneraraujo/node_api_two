@@ -37,5 +37,18 @@ module.exports = {
     const id = req.params.id;
     const deleteUser = await Usuario.findByIdAndDelete(id);
     return res.json({ message: "usuario removido" });
+  },
+
+  async update(req, res) {
+    const {
+      _id,
+      nome_usuario,
+      email_usuario,
+      senha_usuario,
+      tipo_usuario
+    } = req.body;
+    const data = { nome_usuario, email_usuario, senha_usuario, tipo_usuario };
+    const user = await Usuario.findByIdAndUpdate({ _id }, data, { new: true });
+    res.json(user);
   }
 };
