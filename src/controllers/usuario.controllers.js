@@ -31,5 +31,11 @@ module.exports = {
     const id = req.params.id;
     const userDetails = await Usuario.findById(id);
     res.json(userDetails);
+  },
+
+  async delete(req, res) {
+    const id = req.params.id;
+    const deleteUser = await Usuario.findByIdAndDelete(id);
+    return res.json({ message: "usuario removido" });
   }
 };
