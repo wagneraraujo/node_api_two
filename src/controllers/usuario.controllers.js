@@ -40,6 +40,7 @@ module.exports = {
   },
 
   async update(req, res) {
+    //desestrutura requiscao body
     const {
       _id,
       nome_usuario,
@@ -47,6 +48,8 @@ module.exports = {
       senha_usuario,
       tipo_usuario
     } = req.body;
+
+    //novos dados
     const data = { nome_usuario, email_usuario, senha_usuario, tipo_usuario };
     const user = await Usuario.findByIdAndUpdate({ _id }, data, { new: true });
     res.json(user);
