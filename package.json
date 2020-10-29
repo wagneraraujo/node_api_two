@@ -4,7 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon --trace-warnings server.js"
+    "dev": "concurrently \"yarn server\" \"yarn client\"",
+    "client": "yarn start --prefix client",
+    "server": "nodemon server --trace-warnings server.js"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
@@ -15,6 +17,7 @@
     "path": "^0.12.7"
   },
   "devDependencies": {
+    "concurrently": "^5.3.0",
     "nodemon": "^2.0.6"
   }
 }
