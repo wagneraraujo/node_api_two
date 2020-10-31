@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
@@ -9,8 +9,10 @@ import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
+import Button from "@material-ui/core/Button";
 
 import MenuAdmin from "../../../components/menu-admin";
+import api from "../../../services/api";
 const useStyles = makeStyles(theme => ({
   root: {
     "& .MuiTextField-root": {
@@ -28,6 +30,29 @@ const useStyles = makeStyles(theme => ({
 
 export default function FormCadastrarUsuario() {
   const classes = useStyles();
+
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [tipo, setTipo] = useState("");
+
+  async function handleSubmit() {
+    const data = {
+      nome_usuario: nome,
+      email_usuario: email,
+      senha_usuario: senha,
+      tipo_usuario: tipo
+    };
+    console.log(data);
+
+    const response = await api.post("api/usuarios", data);
+
+    if (response.status === 200) {
+      window.location.href = "/admin/usuarios";
+    } else {
+      alert("algo errado");
+    }
+  }
   return (
     <React.Fragment>
       <CssBaseline />
@@ -47,6 +72,8 @@ export default function FormCadastrarUsuario() {
                 label="Nome Usuario"
                 variant="outlined"
                 fullWidth
+                value={nome}
+                onChange={e => setNome(e.target.value)}
               />
             </Grid>
             <Grid item xs={6} md={6} sm={3}>
@@ -55,6 +82,8 @@ export default function FormCadastrarUsuario() {
                 label="Email"
                 variant="outlined"
                 fullWidth
+                value={email}
+                onChange={e => setEmail(e.target.value)}
               />
             </Grid>
             <Grid item xs={2} md={2} sm={2}>
@@ -65,8 +94,8 @@ export default function FormCadastrarUsuario() {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value=""
-                  onChange=""
+                  value={tipo}
+                  onChange={e => setTipo(e.target.value)}
                 >
                   <MenuItem value={10}>Usuario</MenuItem>
                   <MenuItem value={20}>Administrador</MenuItem>
@@ -80,7 +109,18 @@ export default function FormCadastrarUsuario() {
                 label="Senha"
                 variant="outlined"
                 fullWidth
+                value={senha}
+                onChange={e => setSenha(e.target.value)}
               />
+            </Grid>
+            <Grid item xs={6}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSubmit}
+              >
+                Cadastrar
+              </Button>
             </Grid>
           </Grid>
         </form>
